@@ -62,7 +62,7 @@ def full_board_check(board):
 def player_choice(board):
     position = 0
 
-    while position not in [1,2,3,4,5,6,7,8,9] or not space_check(board,position):
+    while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not space_check(board,position):
         position = int(input('Choose a position: (1-9 )'))
     return position
 
@@ -70,3 +70,57 @@ def player_choice(board):
 def replay():
     choice = input('Play again? Enter yes or no')
     return choice == 'yes'
+
+
+print('Welcome')
+
+while True:
+    the_board = [' '] * 10
+    player1_marker, player2_marker = player_input()
+
+    turn = choose_first()
+    print(turn + 'Will go first')
+
+    play_game = input('Want to play? y or n')
+
+    if play_game == 'y':
+        game_on = True
+    else:
+        game_on = False
+
+    while game_on:
+        if turn == 'Player 1':
+            display_board(the_board)
+            position = player_choice(the_board)
+            place_marker(the_board, player1_marker, position)
+
+            if win_check(the_board, player1_marker):
+                display_board(the_board)
+                print('Player 1 has won')
+                game_on = False
+            else:
+                if full_board_check(the_board):
+                    display_board(the_board)
+                    print('Tie Game!')
+                    game_on = False
+                else:
+                    turn = 'Player 2'
+        else:
+            display_board(the_board)
+            position = player_choice(the_board)
+            place_marker(the_board, player2_marker, position)
+
+            if win_check(the_board, player2_marker):
+                display_board(the_board)
+                print('Player 2 has won')
+                game_on = False
+            else:
+                if full_board_check(the_board):
+                    display_board(the_board)
+                    print('Tie Game!')
+                    game_on = False
+                else:
+                    turn = 'Player 1'
+
+    if not replay():
+        break
